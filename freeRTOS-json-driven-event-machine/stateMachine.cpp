@@ -15,6 +15,7 @@ e.g. In these states, the pulse state is blocking while it sends one wave out. T
 #include "stateDatatypes.h"
 #include "globals.h"
 
+#define DEBUG_STATES true
 
 stateMachine::stateMachine() {
 }
