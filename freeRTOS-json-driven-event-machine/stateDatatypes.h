@@ -158,7 +158,7 @@ constexpr size_t NUM_JSON_CMDS =  sizeof(jsonStateMap) / sizeof(jsonStateMap[0])
 
 
 // 4. Declare a structure that will hold all the data that is needed by the state machine AND any states within the state machine
-struct jsonStateData_t {
+typedef struct  {
   stateDef_t stateEnum;   // This likely supercedes the commandState enum, as we can just direcly plug this variable into smState, saving another list of if/elses                         
   dataTypes_t data_type;  // The type of data being passed along with structure (though state should know what data to expect anyway), this could be removed to save space
   int16_t signedInt;      // empty generic data slots for each data type
@@ -168,7 +168,9 @@ struct jsonStateData_t {
   char msg[JSON_MSG_LENGTH];
   char auth[AUTH_MSG_LENGTH];
   bool cmd_received;  // Flag set true by jsonLoop when cmd is received
-};
+} jsonStateData_t;
+
+
 
 
 // 5. Define a structure that will be used to build a table, tying together a state ENUM with the function for the associated state

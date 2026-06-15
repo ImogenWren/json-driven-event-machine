@@ -15,7 +15,7 @@ e.g. In these states, the pulse state is blocking while it sends one wave out. T
 #include "stateDatatypes.h"
 #include "globals.h"
 
-#define DEBUG_STATES true
+//#define DEBUG_STATES true
 
 stateMachine::stateMachine() {
 }
@@ -90,8 +90,8 @@ void stateMachine::sm_state_set_fan(jsonStateData_t &stateData) {
     } else {
       json_error("WARNING", "Fan speed commanded out of range");
     }
-    lastState = smState;  
-  */
+    */
+    lastState = smState;
   }
   smState = STATE_WAIT;
 }
@@ -102,12 +102,12 @@ void stateMachine::sm_state_set_yaw(jsonStateData_t &stateData) {
     Serial.println(F("state: SETYAW"));
 #endif
 
-   // if (stateData.floatData >= yaw_servo_min && stateData.floatData <= yaw_servo_max) {
+    // if (stateData.floatData >= yaw_servo_min && stateData.floatData <= yaw_servo_max) {
     //  yaw_servo_target = stateData.floatData;
-      // lifeCounters.yawsCommanded++;  // shouldnt interact with this directly but otherwise will need a function for each data
-   // } else {
-      // json_error("WARNING", "yaw target out of range");
- //   }
+    // lifeCounters.yawsCommanded++;  // shouldnt interact with this directly but otherwise will need a function for each data
+    // } else {
+    // json_error("WARNING", "yaw target out of range");
+    //   }
     lastState = smState;
   }
   smState = STATE_WAIT;
@@ -118,12 +118,12 @@ void stateMachine::sm_state_set_pitch(jsonStateData_t &stateData) {
 #if DEBUG_STATES == true
     Serial.println(F("state: SETPITCH"));
 #endif
- //   if (stateData.floatData >= pitch_servo_min && stateData.floatData <= pitch_servo_max) {
-   //   pitch_servo_target = stateData.floatData;
-      //   lifeCounters.pitchCommanded++;  // shouldnt interact with this directly but otherwise will need a function for each data
- //   } else {
-      //    json_error("WARNING", "pitch target out of range");
-  //  }
+    //   if (stateData.floatData >= pitch_servo_min && stateData.floatData <= pitch_servo_max) {
+    //   pitch_servo_target = stateData.floatData;
+    //   lifeCounters.pitchCommanded++;  // shouldnt interact with this directly but otherwise will need a function for each data
+    //   } else {
+    //    json_error("WARNING", "pitch target out of range");
+    //  }
     lastState = smState;
   }
   smState = STATE_WAIT;
@@ -140,7 +140,7 @@ void stateMachine::sm_state_stop(jsonStateData_t &stateData) {
     /// esc.write(0);
 
 
-  //  escStatus = ESC_STOPPED;
+    //  escStatus = ESC_STOPPED;
     lastState = smState;
   }
   smState = STATE_WAIT;
@@ -153,10 +153,10 @@ void stateMachine::sm_state_bump(jsonStateData_t &stateData) {
     Serial.println(F("state: BUMP"));
 #endif
     stateData.uInt++;
- //   if (escStatus == ESC_DISABLED) {
-   //   enable_esc();
-  //    escStatus = ESC_ENABLED;
-  //  }
+    //   if (escStatus == ESC_DISABLED) {
+    //   enable_esc();
+    //    escStatus = ESC_ENABLED;
+    //  }
     // esc_active_time_mS = millis();
     //   fan_speed_current = fan_speed_bump;  // function in main loop to slowly move esc towards target speed
     //esc.write(fan_speed_current);
@@ -172,9 +172,9 @@ void stateMachine::sm_state_set_load(jsonStateData_t &stateData) {
     Serial.println(F("state: SETLOAD"));
 #endif
     if (stateData.boolData) {
-     // enable_load();
+      // enable_load();
     } else {
-   //   disable_load();
+      //   disable_load();
     }
     lastState = smState;
   }
@@ -204,15 +204,15 @@ void stateMachine::sm_state_set_m_rntm(jsonStateData_t &stateData) {
     Serial.println(F("state: SET_MOTOR_RUNTIME"));
 #endif
     if (stateData.floatData >= 0) {
-    //  if (memory.check_secret(stateData.auth)) {
-        // logData_t stats = lifeLog.get_current();          // get the current stats
-        // stats.motorSeconds = stateData.floatData * 3600;  // update the value that needs to be updated
-        // lifeLog.write_log(stats);                         // write the updated value to memory
-    //  } else {
-    //    json_error("WARNING", "Incorrect Secret");
-   //   }
+      //  if (memory.check_secret(stateData.auth)) {
+      // logData_t stats = lifeLog.get_current();          // get the current stats
+      // stats.motorSeconds = stateData.floatData * 3600;  // update the value that needs to be updated
+      // lifeLog.write_log(stats);                         // write the updated value to memory
+      //  } else {
+      //    json_error("WARNING", "Incorrect Secret");
+      //   }
     } else {
-    //  json_error("warning", "motor runtime data not in range");
+      //  json_error("warning", "motor runtime data not in range");
     }
     lastState = smState;
   }
@@ -227,16 +227,16 @@ void stateMachine::sm_state_set_gen_rots(jsonStateData_t &stateData) {
     Serial.println(F("state: SET_GEN_ROTS"));
 #endif
     if (stateData.signedInt >= 0) {
-    //  if (memory.check_secret(stateData.auth)) {
-     //   logData_t stats = lifeLog.get_current();         // get the current stats
-     //   stats.generatorRotations = stateData.signedInt;  // update the value that needs to be updated
-     //   gen_rotations = 0;
-   //     lifeLog.write_log(stats);  // write the updated value to memory
-   //   } else {
-     //   json_error("WARNING", "Incorrect Secret");
-     // }
+      //  if (memory.check_secret(stateData.auth)) {
+      //   logData_t stats = lifeLog.get_current();         // get the current stats
+      //   stats.generatorRotations = stateData.signedInt;  // update the value that needs to be updated
+      //   gen_rotations = 0;
+      //     lifeLog.write_log(stats);  // write the updated value to memory
+      //   } else {
+      //   json_error("WARNING", "Incorrect Secret");
+      // }
     } else {
-    //  json_error("warning", "Generator Rotations data not in range");
+      //  json_error("warning", "Generator Rotations data not in range");
     }
     lastState = smState;
   }
@@ -249,16 +249,16 @@ void stateMachine::sm_state_set_yaws_cmd(jsonStateData_t &stateData) {
     Serial.println(F("state: SET_YAWS_CMD"));
 #endif
     if (stateData.signedInt >= 0) {
-   //   if (memory.check_secret(stateData.auth)) {
-   //    logData_t stats = lifeLog.get_current();    // get the current stats
-    //    stats.yawsCommanded = stateData.signedInt;  // update the value that needs to be updated
-    //    lifeCounters.yawsCommanded = 0;
-    //    lifeLog.write_log(stats);  // write the updated value to memory
-     // } else {
-    //    json_error("WARNING", "Incorrect Secret");
-     // }
+      //   if (memory.check_secret(stateData.auth)) {
+      //    logData_t stats = lifeLog.get_current();    // get the current stats
+      //    stats.yawsCommanded = stateData.signedInt;  // update the value that needs to be updated
+      //    lifeCounters.yawsCommanded = 0;
+      //    lifeLog.write_log(stats);  // write the updated value to memory
+      // } else {
+      //    json_error("WARNING", "Incorrect Secret");
+      // }
     } else {
-   //   json_error("warning", "Yaws Commanded data not in range");
+      //   json_error("warning", "Yaws Commanded data not in range");
     }
     lastState = smState;
   }
@@ -271,16 +271,16 @@ void stateMachine::sm_state_set_pitch_cmd(jsonStateData_t &stateData) {
     Serial.println(F("state: SET_PITCH_CMD"));
 #endif
     if (stateData.signedInt >= 0) {
-    //  if (memory.check_secret(stateData.auth)) {
-   //     logData_t stats = lifeLog.get_current();     // get the current stats
-   //     stats.pitchCommanded = stateData.signedInt;  // update the value that needs to be updated
-   //     lifeCounters.pitchCommanded = 0;
-   //     lifeLog.write_log(stats);  // write the updated value to memory
-    //  } else {
-  //      json_error("WARNING", "Incorrect Secret");
-    //  }
+      //  if (memory.check_secret(stateData.auth)) {
+      //     logData_t stats = lifeLog.get_current();     // get the current stats
+      //     stats.pitchCommanded = stateData.signedInt;  // update the value that needs to be updated
+      //     lifeCounters.pitchCommanded = 0;
+      //     lifeLog.write_log(stats);  // write the updated value to memory
+      //  } else {
+      //      json_error("WARNING", "Incorrect Secret");
+      //  }
     } else {
-  //    json_error("warning", "Pitch Commanded data not in range");
+      //    json_error("warning", "Pitch Commanded data not in range");
     }
     lastState = smState;
   }
@@ -304,7 +304,7 @@ void stateMachine::sm_state_samplerate(jsonStateData_t &stateData) {
   if (stateData.uInt < 1 || stateData.uInt > 200) {
     // errors.set_error(false, -10, "Out of Bounds Sample Rate Commanded", errors.WARNING, "state-samplerate");
     //  errors.print_json_status();
- // } else if (stateData.uInt < print_rate_Hz) {
+    // } else if (stateData.uInt < print_rate_Hz) {
     //  errors.set_error(false, -10, "Cannot set sample rate less than print rate", errors.WARNING, "state-samplerate");
     //  errors.print_json_status();
   } else {
@@ -319,7 +319,7 @@ void stateMachine::sm_state_samplerate(jsonStateData_t &stateData) {
 
 
 // Change the samplerate of streamed or snapshotted data (Init at 10 Hz)
-void stateMachine::sm_state_printrate( jsonStateData_t &stateData) {
+void stateMachine::sm_state_printrate(jsonStateData_t &stateData) {
   if (lastState != smState) {
 #if DEBUG_STATES == true
     Serial.println(F("st: PRINT RATE"));
@@ -329,13 +329,13 @@ void stateMachine::sm_state_printrate( jsonStateData_t &stateData) {
   if (stateData.uInt < 1 || stateData.uInt > 50) {
     //   errors.set_error(false, -10, "Out of Bounds Print Rate Commanded", errors.WARNING, "state-printrate");
     //   errors.print_json_status();
-  }// else if (stateData.uInt > sampleRate_Hz) {
-    //   errors.set_error(false, -10, "Cannot set print rate greater than sample rate", errors.WARNING, "state-printrate");
-    //   errors.print_json_status();
- // } else {
-    //  print_rate_Hz = stateData.uInt;
-    //  print_delay_mS = 1000 / print_rate_Hz;
-    //  num_samples_req = uint8_t(sampleRate_Hz / print_rate_Hz);  // Number of samples required to collect between each print cycle
+  }  // else if (stateData.uInt > sampleRate_Hz) {
+  //   errors.set_error(false, -10, "Cannot set print rate greater than sample rate", errors.WARNING, "state-printrate");
+  //   errors.print_json_status();
+  // } else {
+  //  print_rate_Hz = stateData.uInt;
+  //  print_delay_mS = 1000 / print_rate_Hz;
+  //  num_samples_req = uint8_t(sampleRate_Hz / print_rate_Hz);  // Number of samples required to collect between each print cycle
   //}
   smState = STATE_WAIT;
 }
@@ -353,8 +353,8 @@ void stateMachine::sm_state_start_stream(jsonStateData_t &stateData) {
     stateData.uInt++;
     lastState = smState;
   }
- // streaming_active = true;
- // samples_written = 0;  // start sampling again, wondering if this is the cause of the issues
+  // streaming_active = true;
+  // samples_written = 0;  // start sampling again, wondering if this is the cause of the issues
   //  snapshot_timer_mS = jsonStateData_t.signedInt;
   smState = STATE_WAIT;
 }
@@ -362,7 +362,7 @@ void stateMachine::sm_state_start_stream(jsonStateData_t &stateData) {
 
 
 // Stop streaming data
-void stateMachine::sm_state_stop_stream( jsonStateData_t &stateData) {
+void stateMachine::sm_state_stop_stream(jsonStateData_t &stateData) {
   if (lastState != smState) {
 #if DEBUG_STATES == true
     Serial.println(F("state: STOPSTREAM"));
@@ -370,7 +370,7 @@ void stateMachine::sm_state_stop_stream( jsonStateData_t &stateData) {
     stateData.uInt++;
     lastState = smState;
   }
- // streaming_active = false;
+  // streaming_active = false;
   // snapshot_timer_mS = 0;
   smState = STATE_WAIT;
 }
@@ -390,7 +390,7 @@ void stateMachine::sm_state_set_secret(jsonStateData_t &stateData) {
       smState = STATE_WAIT;
       return;
     } else {
-  //    memory.set_secret(stateData.msg);
+      //    memory.set_secret(stateData.msg);
     }
   }
   smState = STATE_WAIT;
@@ -418,7 +418,7 @@ void stateMachine::sm_state_info(jsonStateData_t &stateData) {
     stateData.uInt++;
     lastState = smState;
     //  sample_data();
- //   update_json(1, smState);
+    //   update_json(1, smState);
   }
 
   smState = STATE_WAIT;
@@ -436,12 +436,12 @@ void stateMachine::sm_state_help(jsonStateData_t &stateData) {
     lastState = smState;
   }
   //print_cmds();
- // print_cmds2();
+  // print_cmds2();
   smState = STATE_WAIT;
 }
 
 
-void stateMachine::change_state(stateDef_t new_state){
+void stateMachine::change_state(stateDef_t new_state) {
   smState = new_state;
 }
 
@@ -454,9 +454,9 @@ void stateMachine::sm_Run(jsonStateData_t &stateData) {
     if (lastState != smState) {
       char buffer[14];
       Serial.print("{\"sm\":\"");
-  //    strcpy_P(buffer, (char *)pgm_read_ptr(&(stateNames[smState])));  // Necessary casts and dereferencing, just copy.
- //     Serial.print(buffer);
-      //  Serial.print(stateNames[smState]);   // old RAM heavy version
+      //    strcpy_P(buffer, (char *)pgm_read_ptr(&(stateNames[smState])));  // Necessary casts and dereferencing, just copy.
+      //     Serial.print(buffer);
+      Serial.print(stateNames[smState]);  // old RAM heavy version
       Serial.println(F("\"}"));
     }
 #endif

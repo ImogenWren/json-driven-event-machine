@@ -23,7 +23,6 @@ void jsonMessenger::jsonBegin() {
   Serial.print("{\"json\":\"messenger\",\"version\":\"");
   Serial.print(JSON_MESSENGER_VERSION);
   Serial.println("\"}");
-  
 }
 
 
@@ -44,9 +43,9 @@ void jsonMessenger::printJSON(StaticJsonDocument<JSON_RX_SIZE> *jsonDoc) {
 
 
 
-jsonStateData_t jsonMessenger::jsonReadSerialLoop() {
+void jsonMessenger::jsonReadSerialLoop(jsonStateData_t &jsonRX_data) {
 
-  jsonStateData_t jsonRX_data = { STATE_NULL, EMPTY, 0, 0, 0.0, false, "", "", false };  // Default message that will be passed out if no data received or cannot be parsed
+  jsonRX_data = { STATE_NULL, EMPTY, 0, 0, 0.0, false, "", "", false };  // Default message that will be passed out if no data received or cannot be parsed
 
   if (Serial.available() > 0) {
     //Serial.println("Serial Available");
@@ -258,7 +257,7 @@ jsonStateData_t jsonMessenger::jsonReadSerialLoop() {
           Serial.println(F("{\cmd\":\"enque-failed\"}"));
         }
 #endif
-        return jsonRX_data;  // return the structure as the data has been extracted
+        return;  //  no longer returns data as uses pass by reference // jsonRX_data;  // return the structure as the data has been extracted
       } else {
         if (i == NUM_CMDS - 1) {  // if i = NUM_VALUES we have reached the end of the for loop, if no match has been found, print the unknown cmd
           Serial.println(F("{\"cmd\":\"unknown\"}"));
@@ -267,7 +266,7 @@ jsonStateData_t jsonMessenger::jsonReadSerialLoop() {
       }
     }
   }
-  return jsonRX_data;
+  return;  // now returns data passed by reference jsonRX_data;
 }
 
 
@@ -288,21 +287,33 @@ const char *jsonMessenger::getDataType(dataTypes_t type) {
   return typeNames[type];
 }
 
-void jsonMessenger::printJSONdata(jsonStateData_t *data) {  // Use -> to assess members of a pointer to a struct
-                                                            // Serial.print(F("state: "));
-                                                            // Serial.print(jsonMessenger::getCMDkey(data->stateEnum));   // this no longer works as there is no way to back translate the current state back into the command, but we can just print the actual triggered state, though this is now saved in PROGMEM so is a pain. Excluding for now
+const char *jsonMessenger::getStateEnum(stateDef_t state) {
+  return stateNames[state];
+}
+
+void jsonMessenger::printStateData(jsonStateData_t &data) {  // Use -> to assess members of a pointer to a struct
+                                                             // Serial.print(F("state: "));
+                                                             // Serial.print(jsonMessenger::getCMDkey(data->stateEnum));   // this no longer works as there is no way to back translate the current state back into the command, but we can just print the actual triggered state, though this is now saved in PROGMEM so is a pain. Excluding for now
+  Serial.print("stateEnum: ");
+  Serial.println(jsonMessenger::getStateEnum(data.stateEnum));
   Serial.print(F(" dataType: "));
-  jsonMessenger::getDataType(data->data_type);
+  Serial.println(jsonMessenger::getDataType(data.data_type));
   Serial.print(F(" signedInt: "));
-  Serial.print(data->signedInt);
+  Serial.println(data.signedInt);
+  Serial.print(F(" uInt: "));
+  Serial.println(data.uInt);
   Serial.print(F(" Float: "));
-  Serial.print(data->floatData);
+  Serial.println(data.floatData);
+  Serial.print(F(" bool: "));
+  Serial.println(data.boolData);
   Serial.print(F(" msg: "));
-  Serial.print(data->msg);
+  Serial.println(data.msg);
   Serial.print(F(" cmd: "));
-  Serial.print(data->cmd_received);
+  Serial.println(data.cmd_received);
   Serial.println();
 }
+
+
 
 /*
 void jsonMessenger::print_cmds() {

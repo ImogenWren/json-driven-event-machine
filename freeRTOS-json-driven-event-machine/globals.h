@@ -24,6 +24,10 @@
 #include "jsonMessenger.h"  // jsonMessenger also relies on variables desifined in jsonConfig
 #include "stateMachine.h"
 
+// Other Headers
+#include "utilities.h"  // utilities may be shared
+#include "tasks.h"      // tasks only pulls from others
+
 
 // Program Attributes
 #define PROGRAM_NAME "RTOS json-driven event machine"
@@ -115,8 +119,20 @@ const int RED_LED_PIN = GPIO5;      // CHANGED DUE TO i2C ERROR GPIO5;   GPIO16;
 #define EEPROM_ADDRESS 0xFF  // EEPROM location for calibration data if required
 
 // Debugging
-#define DEBUG_STATES false
-#define DEBUG_STATE_MACHINE false
+#define DEBUG_STATES true
+#define DEBUG_STATE_MACHINE true
+
+
+// globals for queue functions
+// Define the Queue Handler
+extern QueueHandle_t QueueHandle;
+extern const int QueueElements;  // = 10;
+                                 // Normally we would define a custom struct here called message_t,
+                                 // however, we already have a typedef to use jsonStateData_t which is output directly by jsonMessenger,
+                                 // and accepted by stateMachine, our queue will just bridge the gap between these two
+extern jsonStateData_t nextState_data;
+extern const jsonStateData_t emptyData;
+
 
 // Object Declaration (+ associated global vars)
 // Indicator LEDs

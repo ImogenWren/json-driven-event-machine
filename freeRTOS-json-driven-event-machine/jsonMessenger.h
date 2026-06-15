@@ -56,7 +56,7 @@ Version v3
 class jsonMessenger {
 private:
 
-uint16_t NUM_CMDS = NUM_JSON_CMDS;
+  uint16_t NUM_CMDS = NUM_JSON_CMDS;
 
 
 public:
@@ -65,16 +65,17 @@ public:
 
   void jsonBegin();
 
-  jsonStateData_t jsonReadSerialLoop();  // function needs to be called periodically to accept incoming serial messages, parse & return jsonStateData_t with new state /and data required for new state
+  void jsonReadSerialLoop(jsonStateData_t &jsonRX_data);  // function needs to be called periodically to accept incoming serial messages, parse & return jsonStateData_t with new state /and data required for new state
 
   void printJSON(StaticJsonDocument<JSON_RX_SIZE> *jsonDoc);  // Prints the static jsonRXdoc
 
 
- // const char *getCMDkey(jsonStates state);  // to print the state in human readable form without coping the entire list of keys to global scope
+  // const char *getCMDkey(jsonStates state);  // to print the state in human readable form without coping the entire list of keys to global scope
 
   const char *getDataType(dataTypes_t type);
+  const char *getStateEnum(stateDef_t state);
 
-  void printJSONdata(jsonStateData_t *data);
+  void printStateData(jsonStateData_t &data);
 
   //  void print_cmds();
 
